@@ -1,13 +1,18 @@
 # Pump TDH Visualizer
 
-An independent visualization application for pump and piping calculations. It uses **Streamlit** for interactive controls and **Matplotlib** for engineering plots.
+A standalone desktop visualization application for pump and piping calculations. The graphical interface is built with **PySide6 (Qt)** and charts are rendered with **Matplotlib**.
+
+## Why PySide6?
+
+This is a native desktop application, not a browser-based dashboard. Qt provides resizable windows, desktop controls, file dialogs, tabs and a foundation for richer engineering workflows. Matplotlib is embedded directly in the Qt interface.
 
 ## Current features
 
-- Choose the horizontal (X) and vertical (Y) chart parameters independently.
-- Change the selected flow rate with a slider and highlight the nearest calculated data point.
-- Upload calculation results as CSV.
-- View key hydraulic values and a simple hydraulic system sketch.
+- Select horizontal (X) and vertical (Y) chart parameters independently.
+- Adjust the selected flow rate with a slider and highlight the nearest calculated data point.
+- Load calculation results from CSV.
+- Matplotlib navigation toolbar (zoom, pan, save).
+- Separate tabs for the chart, a conceptual hydraulic sketch and source data.
 - Keep visualization separate from the calculation engine in `pump-tdh-calculator`.
 
 > The included CSV is illustrative sample data only. It is not a verified pump curve or a site design result.
@@ -20,7 +25,7 @@ Python 3.10 or newer is recommended.
 python -m venv .venv
 ```
 
-Windows:
+Windows PowerShell:
 
 ```powershell
 .venv\Scripts\activate
@@ -32,16 +37,16 @@ Linux/macOS:
 source .venv/bin/activate
 ```
 
-Install and run:
+Install dependencies and launch:
 
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
+python app.py
 ```
 
 ## CSV data interface
 
-The uploaded CSV must contain these columns:
+The CSV must contain these columns:
 
 | Column | Meaning | Unit |
 |---|---|---|
@@ -55,7 +60,7 @@ The uploaded CSV must contain these columns:
 | `electrical_power_kw` | Electrical input power | kW |
 | `pump_efficiency_pct` | Pump efficiency | % |
 
-The flow slider highlights the nearest row in the supplied dataset. It does not currently interpolate or recalculate hydraulic results. This is deliberate: the visualizer must not silently duplicate the equations in the calculator.
+The slider currently selects the nearest row in the loaded dataset. It does not interpolate or recalculate hydraulic results. The next integration step is to define a calculation-sweep export in `pump-tdh-calculator`, then connect the actual calculation engine.
 
 ## Project structure
 
@@ -71,12 +76,10 @@ pump-tdh-visualizer/
 
 ## Roadmap
 
-1. Validate the first interactive chart and CSV workflow.
-2. Define a stable export format in `pump-tdh-calculator`.
-3. Connect the visualizer to real calculation outputs.
-4. Add scenario comparison and multiple curves.
+1. Validate the desktop GUI and CSV workflow.
+2. Define a stable calculation-sweep export format.
+3. Recalculate hydraulic results when flow changes.
+4. Add scenario comparison, pump/system curves and multiple axes.
 5. Improve the hydraulic sketch and add chart export.
-
-## Language
 
 See [Persian visualization guide](docs/VISUALIZATION_GUIDE_FA.md).
